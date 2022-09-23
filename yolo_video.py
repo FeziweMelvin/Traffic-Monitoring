@@ -79,7 +79,7 @@ def drawDetectionBoxes(idxs, boxes, classIDs, confidences, frame):
 			cv2.putText(frame, text, (x, y - 5),
 				cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
 			#Draw a green dot in the middle of the box
-			cv2.circle(frame, (x + (w//2), y+ (h//2)), 2, (0, 0xFF, 0), thickness=2)
+			cv2.circle(frame, (x + (w//2), y+ (h//2)), 2, (0, 0xFF, 0), thickness=5)
 
 # PURPOSE: Initializing the video writer with the output video path and the same number
 # of fps, width and height as the source video 
