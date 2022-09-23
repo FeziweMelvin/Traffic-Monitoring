@@ -72,14 +72,16 @@ def drawDetectionBoxes(idxs, boxes, classIDs, confidences, frame):
 			(w, h) = (boxes[i][2], boxes[i][3])
 
 			# draw a bounding box rectangle and label on the frame
-			color = [int(c) for c in COLORS[classIDs[i]]]
-			cv2.rectangle(frame, (x, y), (x + w, y + h), color, 2)
-			text = "{}: {:.4f}".format(LABELS[classIDs[i]],
+			#Filtering ouyt people in the detection
+			if (LABELS[classIDs[i]]!="person"):
+				color = [int(c) for c in COLORS[classIDs[i]]]
+				cv2.rectangle(frame, (x, y), (x + w, y + h), color, 3)
+				text = "{}: {:.4f}".format(LABELS[classIDs[i]],
 				confidences[i])
-			cv2.putText(frame, text, (x, y - 5),
-				cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
-			#Draw a green dot in the middle of the box
-			cv2.circle(frame, (x + (w//2), y+ (h//2)), 2, (0, 0xFF, 0), thickness=5)
+				#cv2.putText(frame, text, (x, y - 5),cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
+
+			#Draw a red dot in the middle of the box
+				cv2.circle(frame, (x + (w//2), y+ (h//2)), 20 , (0, 0, 255), thickness=-1)
 
 # PURPOSE: Initializing the video writer with the output video path and the same number
 # of fps, width and height as the source video 
@@ -153,8 +155,7 @@ def count_vehicles(idxs, boxes, classIDs, vehicle_count, previous_frame_detectio
 					vehicle_count += 1 
 
 				#Display the ID at the center of the box
-				cv2.putText(frame, str(ID), (centerX, centerY),\
-					cv2.FONT_HERSHEY_SIMPLEX, 0.5, [0,0,255], 2)
+				cv2.putText(frame, str(ID), (centerX, centerY),cv2.FONT_HERSHEY_SIMPLEX, 1, [0,255,255], 5)
 
 	return vehicle_count, current_detections
 
