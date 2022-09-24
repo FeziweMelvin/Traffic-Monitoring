@@ -15,11 +15,9 @@ inputWidth, inputHeight = 416, 416
 #Parse command line arguments and extract the values required
 LABELS, weightsPath, configPath, inputVideoPath, outputVideoPath, preDefinedConfidence, preDefinedThreshold, USE_GPU= parseCommandLineArguments()
 
-# Initialize a list of colors to represent each possible class label
-np.random.seed(42)
-COLORS = np.random.randint(0, 255, size=(len(LABELS), 3),
-	dtype="uint8")
-# PURPOSE: Displays the vehicle count on the top-left corner of the frame
+
+# PURPOSE: Displays the vehicl
+# e count on the top-left corner of the frame
 # PARAMETERS: Frame on which the count is displayed, the count number of vehicles 
 # RETURN: N/A
 def displayVehicleCount(frame, vehicle_count):
@@ -29,7 +27,7 @@ def displayVehicleCount(frame, vehicle_count):
 		(20, 20), #Position
 		cv2.FONT_HERSHEY_SIMPLEX, #Font
 		0.8, #Size
-		(0, 0xFF, 0), #Color
+		(0, 255, 0), #Color
 		2, #Thickness
 		cv2.FONT_HERSHEY_COMPLEX_SMALL,
 		)
@@ -74,11 +72,8 @@ def drawDetectionBoxes(idxs, boxes, classIDs, confidences, frame):
 			# draw a bounding box rectangle and label on the frame
 			#Filtering ouyt people in the detection
 			if (LABELS[classIDs[i]]!="person"):
-				color = [int(c) for c in COLORS[classIDs[i]]]
+				color = (255,255,0)
 				cv2.rectangle(frame, (x, y), (x + w, y + h), color, 3)
-				text = "{}: {:.4f}".format(LABELS[classIDs[i]],
-				confidences[i])
-				#cv2.putText(frame, text, (x, y - 5),cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
 
 			#Draw a red dot in the middle of the box
 				cv2.circle(frame, (x + (w//2), y+ (h//2)), 20 , (0, 0, 255), thickness=-1)
