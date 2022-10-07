@@ -27,7 +27,7 @@ def displayVehicleCount(frame, vehicle_count):
 		(20, 20), #Position
 		cv2.FONT_HERSHEY_SIMPLEX, #Font
 		0.8, #Size
-		(0, 255, 0), #Color
+		(255, 180, 0), #Color
 		2, #Thickness
 		cv2.FONT_HERSHEY_COMPLEX_SMALL,
 		)
@@ -71,12 +71,12 @@ def drawDetectionBoxes(idxs, boxes, classIDs, confidences, frame):
 
 			# draw a bounding box rectangle and label on the frame
 			#Filtering ouyt people in the detection
-			if (LABELS[classIDs[i]]!="person"):
+			if (LABELS[classIDs[i]] in list_of_vehicles):
 				color = (255,255,0)
-				cv2.rectangle(frame, (x, y), (x + w, y + h), color, 3)
+				cv2.rectangle(frame, (x, y), (x + w, y + h), color, 1)#2 or 1 (if video edited and cropped==1)
 
 			#Draw a red dot in the middle of the box
-				cv2.circle(frame, (x + (w//2), y+ (h//2)), 20 , (0, 0, 255), thickness=-1)
+				cv2.circle(frame, (x + (w//2), y+ (h//2)), 3 , (0, 0, 255), thickness=-1) #3 >>9
 
 # PURPOSE: Initializing the video writer with the output video path and the same number
 # of fps, width and height as the source video 
@@ -150,7 +150,7 @@ def count_vehicles(idxs, boxes, classIDs, vehicle_count, previous_frame_detectio
 					vehicle_count += 1 
 
 				#Display the ID at the center of the box
-				cv2.putText(frame, str(ID), (centerX, centerY),cv2.FONT_HERSHEY_SIMPLEX, 1, [0,255,255], 5)
+				cv2.putText(frame, str(ID), (centerX, centerY),cv2.FONT_HERSHEY_SIMPLEX, 0.5, [0,255,255], 1)#1>>>2
 
 	return vehicle_count, current_detections
 
