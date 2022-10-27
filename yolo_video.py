@@ -32,13 +32,13 @@ def displayVehicleCount(frame, vehicle_count):
 		cv2.FONT_HERSHEY_COMPLEX_SMALL,
 		)
 
-# PURPOSE: Determining if the box-mid point cross the line or are within the range of 5 units
-# from the line
-# PARAMETERS: X Mid-Point of the box, Y mid-point of the box, Coordinates of the line 
-# RETURN: 
-# - True if the midpoint of the box overlaps with the line within a threshold of 5 units 
-# - False if the midpoint of the box lies outside the line and threshold
-def boxAndLineOverlap(x_mid_point, y_mid_point, line_coordinates):
+def boxAndLineOverlap(x_mid_point, y_mid_point, line_coordinates):"""
+	Determining if the box-mid point cross the line or are within the range of 5 unit from the line
+	:param x_mid_point: 
+	:param y_mid_point: 
+	:param line_coordinates: 
+	:return: True if the midpoint of the box overlaps with the line within a threshold of 5 units  otherwiase false
+	"""
 	x1_line, y1_line, x2_line, y2_line = line_coordinates #Unpacking
 
 	if (x_mid_point >= x1_line and x_mid_point <= x2_line+5) and\
@@ -46,10 +46,12 @@ def boxAndLineOverlap(x_mid_point, y_mid_point, line_coordinates):
 		return True
 	return False
 
-# PURPOSE: Displaying the FPS of the detected video
-# PARAMETERS: Start time of the frame, number of frames within the same second
-# RETURN: New start time, new number of frames 
-def displayFPS(start_time, num_frames):
+# Displaying the FPS of the detected video
+def displayFPS(start_time, num_frames):"""
+	param start_time:  Start time of the frame, 
+	param num_frames: number of frames within the same second
+	return: New start time, new number of frames
+	"""
 	current_time = int(time.time())
 	if(current_time > start_time):
 		os.system('clear') # Equivalent of CTRL+L on the terminal
@@ -58,9 +60,12 @@ def displayFPS(start_time, num_frames):
 		start_time = current_time
 	return start_time, num_frames
 
-# PURPOSE: Draw all the detection boxes with a green dot at the center
-# RETURN: N/A
-def drawDetectionBoxes(idxs, boxes, classIDs, confidences, frame):
+# Draw all the detection boxes with a green dot at the center
+def drawDetectionBoxes(idxs, boxes, classIDs, confidences, frame):""" 
+	params: All the vehicular detections of the previous frames,
+	the coordinates of the box of previous detections
+	return: True if the box was current box was present in the previous frames otherwise False
+	"""
 	# ensure at least one detection exists
 	if len(idxs) > 0:
 		# loop over the indices we are keeping
@@ -78,11 +83,13 @@ def drawDetectionBoxes(idxs, boxes, classIDs, confidences, frame):
 			#Draw a red dot in the middle of the box
 				cv2.circle(frame, (x + (w//2), y+ (h//2)), 3 , (0, 0, 255), thickness=-1) #3 >>9
 
-# PURPOSE: Initializing the video writer with the output video path and the same number
-# of fps, width and height as the source video 
-# PARAMETERS: Width of the source video, Height of the source video, the video stream
-# RETURN: The initialized video writer
-def initializeVideoWriter(video_width, video_height, videoStream):
+# Initializing the video writer with the output video path and the same number
+def initializeVideoWriter(video_width, video_height, videoStream):"""
+	:param video_width: Width of the source video
+	:param video_height: Height of the source video
+	:param videoStream: the video stream
+	:return: The initialized video writer
+	"""
 	# Getting the fps of the source video
 	sourceVideofps = videoStream.get(cv2.CAP_PROP_FPS)
 	# initialize our video writer
@@ -90,12 +97,14 @@ def initializeVideoWriter(video_width, video_height, videoStream):
 	return cv2.VideoWriter(outputVideoPath, fourcc, sourceVideofps,
 		(video_width, video_height), True)
 
-# PURPOSE: Identifying if the current box was present in the previous frames
-# PARAMETERS: All the vehicular detections of the previous frames, 
-#			the coordinates of the box of previous detections
-# RETURN: True if the box was current box was present in the previous frames;
-#		  False if the box was not present in the previous frames
-def boxInPreviousFrames(previous_frame_detections, current_box, current_detections):
+# Identifying if the current box was present in the previous frames
+def boxInPreviousFrames(previous_frame_detections, current_box, current_detections):"""
+
+	:param previous_frame_detections: 
+	:param current_box: 
+	:param current_detections: 
+	:return: 
+	"""
 	centerX, centerY, width, height = current_box
 	dist = np.inf #Initializing the minimum distance
 	# Iterating through all the k-dimensional trees
@@ -188,10 +197,12 @@ num_frames, vehicle_count = 0, 0
 writer = initializeVideoWriter(video_width, video_height, videoStream)
 start_time = int(time.time())
 # loop over frames from the video file stream
+counts = 0 #Total number of vehicles
 while True:
 	print("================NEW FRAME================")
 	num_frames+= 1
 	print("FRAME:\t", num_frames)
+
 	# Initialization for each iteration
 	boxes, confidences, classIDs = [], [], [] 
 	vehicle_crossed_line_flag = False 
@@ -216,6 +227,7 @@ while True:
 	end = time.time()
 
 	# loop over each of the layer outputs
+#For the detection iof traffic
 	for output in layerOutputs:
 		# loop over each of the detections
 		for i, detection in enumerate(output):
@@ -251,13 +263,6 @@ while True:
 				confidences.append(float(confidence))
 				classIDs.append(classID)
 
-	# # Changing line color to green if a vehicle in the frame has crossed the line 
-	# if vehicle_crossed_line_flag:
-	# 	cv2.line(frame, (x1_line, y1_line), (x2_line, y2_line), (0, 0xFF, 0), 2)
-	# # Changing line color to red if a vehicle in the frame has not crossed the line 
-	# else:
-	# 	cv2.line(frame, (x1_line, y1_line), (x2_line, y2_line), (0, 0, 0xFF), 2)
-
 	# apply non-maxima suppression to suppress weak, overlapping
 	# bounding boxes
 	idxs = cv2.dnn.NMSBoxes(boxes, confidences, preDefinedConfidence,
@@ -267,6 +272,7 @@ while True:
 	drawDetectionBoxes(idxs, boxes, classIDs, confidences, frame)
 
 	vehicle_count, current_detections = count_vehicles(idxs, boxes, classIDs, vehicle_count, previous_frame_detections, frame)
+	counts=vehicle_count
 
 	# Display Vehicle Count if a vehicle has passed the line 
 	displayVehicleCount(frame, vehicle_count)
@@ -282,8 +288,26 @@ while True:
 	previous_frame_detections.pop(0) #Removing the first frame from the list
 	# previous_frame_detections.append(spatial.KDTree(current_detections))
 	previous_frame_detections.append(current_detections)
+# rate =
+duration = 45  #
+flow = counts/duration
+if flow< (30/45):
+	print("Not Congested")
+	print(f"duration {flow} and")
+	print("total counts"+ str(counts))
+	print("threshold" + str(16/45))
+else:
+	print("Congested")
+
+	print(f"duration {flow} and")
+	print("total counts "+ str(counts))
+
+	print("threshold " + str(16/45))
 
 # release the file pointers
 print("[INFO] cleaning up...")
 writer.release()
 videoStream.release()
+
+
+
