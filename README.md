@@ -4,4 +4,4 @@ This Repository will not contain fully code/information about this project. A li
 
 # Project in Action
 ![](https://github.com/Traffic-Monitoring/traffic_monitoring.gif)
-https://github.com/FeziweMelvin/Traffic-Monitoring/blob/main/traffic_monitoring.gif
+![](https://github.com/FeziweMelvin/Traffic-Monitoring/blob/main/traffic_monitoring.gif)
