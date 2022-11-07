@@ -14,9 +14,9 @@ import os
 def parseCommandLineArguments():
 	# construct the argument parse and parse the arguments
 	ap = argparse.ArgumentParser()
-	ap.add_argument("-i", "--input", default="./inputVideos/bridge.mov",
+	ap.add_argument("-i", "--input", default="./inputVideos/testing.mov",
 		help="path to input video")
-	ap.add_argument("-o", "--output", default="./outputVideos/bridge.mov",
+	ap.add_argument("-o", "--output", default="./outputVideos/testing.mov",
 		help="path to output video")
 	ap.add_argument("-y", "--yolo", default="./yolo-coco",
 		help="base path to YOLO directory")

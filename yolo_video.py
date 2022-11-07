@@ -29,10 +29,10 @@ def displayVehicleCount(frame, vehicle_count):
 		0.8, #Size
 		(255, 180, 0), #Color
 		2, #Thickness
-		cv2.FONT_HERSHEY_COMPLEX_SMALL,
-		)
+		cv2.FONT_HERSHEY_COMPLEX_SMALL,)
 
-def boxAndLineOverlap(x_mid_point, y_mid_point, line_coordinates):"""
+def boxAndLineOverlap(x_mid_point, y_mid_point, line_coordinates):
+	"""
 	Determining if the box-mid point cross the line or are within the range of 5 unit from the line
 	:param x_mid_point: 
 	:param y_mid_point: 
@@ -47,7 +47,8 @@ def boxAndLineOverlap(x_mid_point, y_mid_point, line_coordinates):"""
 	return False
 
 # Displaying the FPS of the detected video
-def displayFPS(start_time, num_frames):"""
+def displayFPS(start_time, num_frames):
+	"""
 	param start_time:  Start time of the frame, 
 	param num_frames: number of frames within the same second
 	return: New start time, new number of frames
@@ -61,7 +62,8 @@ def displayFPS(start_time, num_frames):"""
 	return start_time, num_frames
 
 # Draw all the detection boxes with a green dot at the center
-def drawDetectionBoxes(idxs, boxes, classIDs, confidences, frame):""" 
+def drawDetectionBoxes(idxs, boxes, classIDs, confidences, frame):
+	"""
 	params: All the vehicular detections of the previous frames,
 	the coordinates of the box of previous detections
 	return: True if the box was current box was present in the previous frames otherwise False
@@ -84,7 +86,8 @@ def drawDetectionBoxes(idxs, boxes, classIDs, confidences, frame):"""
 				cv2.circle(frame, (x + (w//2), y+ (h//2)), 3 , (0, 0, 255), thickness=-1) #3 >>9
 
 # Initializing the video writer with the output video path and the same number
-def initializeVideoWriter(video_width, video_height, videoStream):"""
+def initializeVideoWriter(video_width, video_height, videoStream):
+	"""
 	:param video_width: Width of the source video
 	:param video_height: Height of the source video
 	:param videoStream: the video stream
@@ -98,7 +101,8 @@ def initializeVideoWriter(video_width, video_height, videoStream):"""
 		(video_width, video_height), True)
 
 # Identifying if the current box was present in the previous frames
-def boxInPreviousFrames(previous_frame_detections, current_box, current_detections):"""
+def boxInPreviousFrames(previous_frame_detections, current_box, current_detections):
+	"""
 
 	:param previous_frame_detections: 
 	:param current_box: 
@@ -156,7 +160,7 @@ def count_vehicles(idxs, boxes, classIDs, vehicle_count, previous_frame_detectio
 				# then assign a new ID to current detection.
 				if (list(current_detections.values()).count(ID) > 1):
 					current_detections[(centerX, centerY)] = vehicle_count
-					vehicle_count += 1 
+					vehicle_count += 1
 
 				#Display the ID at the center of the box
 				cv2.putText(frame, str(ID), (centerX, centerY),cv2.FONT_HERSHEY_SIMPLEX, 0.5, [0,255,255], 1)#1>>>2
