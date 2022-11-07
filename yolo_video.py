@@ -201,6 +201,7 @@ num_frames, vehicle_count = 0, 0
 writer = initializeVideoWriter(video_width, video_height, videoStream)
 start_time = int(time.time())
 # loop over frames from the video file stream
+
 counts = 0 #Total number of vehicles
 while True:
 	print("================NEW FRAME================")
@@ -281,32 +282,52 @@ while True:
 	# Display Vehicle Count if a vehicle has passed the line 
 	displayVehicleCount(frame, vehicle_count)
 
-    # write the output frame to disk
+	# write the output frame to disk
 	writer.write(frame)
-
 	cv2.imshow('Frame', frame)
+
 	if cv2.waitKey(1) & 0xFF == ord('q'):
-		break	
-	
+		break
+
 	# Updating with the current frame detections
 	previous_frame_detections.pop(0) #Removing the first frame from the list
 	# previous_frame_detections.append(spatial.KDTree(current_detections))
 	previous_frame_detections.append(current_detections)
 # rate =
+
+start_time, num_frames = displayFPS(start_time, num_frames)
+	# read the next frame from the file
+(grabbed, frame) = videoStream.read()
+
+
 duration = 45  #
-flow = counts/duration
-if flow< (30/45):
-	print("Not Congested")
-	print(f"duration {flow} and")
-	print("total counts"+ str(counts))
-	print("threshold" + str(16/45))
+flow = counts / duration
+f_threshold = 30 / 45
+
+if flow < f_threshold:
+			# Congestion or not
+			cv2.putText(
+				frame,  # Image/frame
+				"Congestion: \n Flow = \n",  # Label
+				(20, 40),  # Position
+				cv2.FONT_HERSHEY_SIMPLEX,  # Font
+				0.7,  # Size
+				(0, 0, 255),  # Color
+				2,  # Thickness
+				cv2.FONT_HERSHEY_COMPLEX_SMALL, )
+
 else:
-	print("Congested")
+			cv2.putText(
+				frame,  # Image/frame
+				"Congestion : \nCutoff flow =  \nFlow= \nNot Congested",  # Label
+				(20, 40),  # Position
+				cv2.FONT_HERSHEY_SIMPLEX,  # Font
+				0.7,  # Size
+				(0, 0, 255),  # Color
+				2,  # Thickness
+				cv2.FONT_HERSHEY_COMPLEX_SMALL, )
 
-	print(f"duration {flow} and")
-	print("total counts "+ str(counts))
 
-	print("threshold " + str(16/45))
 
 # release the file pointers
 print("[INFO] cleaning up...")
