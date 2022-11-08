@@ -293,40 +293,40 @@ while True:
 	previous_frame_detections.pop(0) #Removing the first frame from the list
 	# previous_frame_detections.append(spatial.KDTree(current_detections))
 	previous_frame_detections.append(current_detections)
-# rate =
 
-start_time, num_frames = displayFPS(start_time, num_frames)
-	# read the next frame from the file
-(grabbed, frame) = videoStream.read()
-
-
-duration = 45  #
-flow = counts / duration
-f_threshold = 30 / 45
-
-if flow < f_threshold:
-			# Congestion or not
-			cv2.putText(
-				frame,  # Image/frame
-				"Congestion: \n Flow = \n",  # Label
-				(20, 40),  # Position
-				cv2.FONT_HERSHEY_SIMPLEX,  # Font
-				0.7,  # Size
-				(0, 0, 255),  # Color
-				2,  # Thickness
-				cv2.FONT_HERSHEY_COMPLEX_SMALL, )
-
-else:
-			cv2.putText(
-				frame,  # Image/frame
-				"Congestion : \nCutoff flow =  \nFlow= \nNot Congested",  # Label
-				(20, 40),  # Position
-				cv2.FONT_HERSHEY_SIMPLEX,  # Font
-				0.7,  # Size
-				(0, 0, 255),  # Color
-				2,  # Thickness
-				cv2.FONT_HERSHEY_COMPLEX_SMALL, )
-
+# start_time, num_frames = displayFPS(start_time, num_frames)
+# 	# read the next frame from the file
+# (grabbed, frame) = videoStream.read()
+#
+#
+# duration = 45  #
+# flow = counts / duration
+# f_threshold = 30 / 45
+#
+# if flow < f_threshold:
+# 			# Congestion or not
+# 			cv2.putText(
+# 				frame,  # Image/frame
+# 				"Congestion: \n Flow = \n",  # Label
+# 				(20, 40),  # Position
+# 				cv2.FONT_HERSHEY_SIMPLEX,  # Font
+# 				0.7,  # Size
+# 				(0, 0, 255),  # Color
+# 				2,  # Thickness
+# 				cv2.FONT_HERSHEY_COMPLEX_SMALL, )
+# 			writer.write(frame)
+#
+# else:
+# 			cv2.putText(
+# 				frame,  # Image/frame
+# 				"Congestion : \nCutoff flow =  \nFlow= \nNot Congested",  # Label
+# 				(20, 40),  # Position
+# 				cv2.FONT_HERSHEY_SIMPLEX,  # Font
+# 				0.7,  # Size
+# 				(0, 0, 255),  # Color
+# 				2,  # Thickness
+# 				cv2.FONT_HERSHEY_COMPLEX_SMALL, )
+# 			writer.write(frame)
 
 
 # release the file pointers
