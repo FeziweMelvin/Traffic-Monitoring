@@ -31,38 +31,6 @@ def displayVehicleCount(frame, vehicle_count):
 		2, #Thickness
 		cv2.FONT_HERSHEY_COMPLEX_SMALL,)
 
-	#Results to be deleted
-	# cv2.putText(
-	# 	frame, #Image
-	# 	'Detected Vehicles: ' + str(31), #Label
-	# 	(20, 20), #Position
-	# 	cv2.FONT_HERSHEY_SIMPLEX, #Font
-	# 	0.8, #Size
-	# 	(255, 180, 0), #Color
-	# 	2, #Thickness
-	# 	cv2.FONT_HERSHEY_COMPLEX_SMALL,)
-
-
-	# cv2.putText(
-	# 	frame, #Image
-	# 	'Traffic flow: ' + str(round(31/45,3)), #Label
-	# 	(20, 50), #Position
-	# 	cv2.FONT_HERSHEY_SIMPLEX, #Font
-	# 	0.8, #Size
-	# 	(100, 100, 50), #Color
-	# 	2, #Thickness
-	# 	cv2.FONT_HERSHEY_COMPLEX_SMALL,)
-
-	# cv2.putText(
-	# 	frame, #Image
-	# 	'Congested', #Label
-	# 	(400, 400), #Position
-	# 	cv2.FONT_HERSHEY_SIMPLEX, #Font
-	# 	2, #Size
-	# 	(0,0,250), #Color
-	# 	2, #Thickness
-	# 	cv2.FONT_HERSHEY_COMPLEX_SMALL,)
-
 def boxAndLineOverlap(x_mid_point, y_mid_point, line_coordinates):
 	"""
 	Determining if the box-mid point cross the line or are within the range of 5 unit from the line
@@ -163,7 +131,6 @@ def boxInPreviousFrames(previous_frame_detections, current_box, current_detectio
 	return True
 
 def count_vehicles(idxs, boxes, classIDs, vehicle_count, previous_frame_detections, frame):
-	# vehicle_count=26
 	current_detections = {}
 	# ensure at least one detection exists
 	if len(idxs) > 0:
